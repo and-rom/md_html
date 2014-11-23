@@ -76,8 +76,12 @@ function parse() {
 
     /* hide menu if mask is clicked */
     mask.addEventListener( "click", function () {
-	menu = (menu ? menu : true )
-	menuToggler(); 
+	if (typeof menu !== 'undefined') {
+	    menu = (menu ? menu : true )
+	    menuToggler();
+	} else {
+	    document.body.removeChild(mask);
+	}
     } );
 
     /* toggle output or editor */
