@@ -12,18 +12,16 @@
   </head>
   <body>
     <header>
-      <div id="toolbar">
-	<ul id="menu">
-	  <li id="new">New</li>
-	  <li id="open">Open</li>
-	  <li id="save">Save</li>
-	  <li id="publish">Publish</li>
+<button id="toggleMenu">&#9776;</button>
+      <nav id="nav">
+	<ul>
+	  <li> <button id=" Open</li>
+	  <li> <button id=" Save</li>
+	  <li> <button id=" Publish</li>
+   <li> <button id=" Help</li>
 	</ul>
-	<ul id="btn">
-          <li id="view" onclick="show();">View</li>
-          <li id="menu">&#9776;</li>
-	</ul>
-      </div>
+      </nav>
+<button id="toggleView">View</button>
     </header>
     <div id="editor">
 	<textarea cols="30" id="md" name="md" rows="10">
@@ -60,3 +58,4 @@ if (isset($_POST['md']) and !empty($_POST['md'])) {
     <div id="output"></div>
   </body>
 </html>
+
