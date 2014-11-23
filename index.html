@@ -1,29 +1,28 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
-    <title>Test page</title>
+    <title>Yet another markdown to html converter</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="" />
     <meta name="description" content="" />
-    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-    <link href="style.css" rel="stylesheet" type="text/css">
-    <script type="text/javascript" src="index.js"></script>
+    <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->    <link href="style.css" rel="stylesheet" type="text/css">
   </head>
   <body>
     <header>
-<button id="toggleMenu">&#9776;</button>
+      <button id="toggleMenu">&#9776;</button>
       <nav id="nav">
 	<ul>
-	  <li> <button id=" Open</li>
-	  <li> <button id=" Save</li>
-	  <li> <button id=" Publish</li>
-   <li> <button id=" Help</li>
+	  <li><button id="open">Open md</button></li>
+	  <li><button id="save">Save md</button></li>
+	  <li><button id="publish">Publish html</button></li>
+	  <li><button id="help">Help</button></li>
 	</ul>
       </nav>
-<button id="toggleView">View</button>
+      <button id="toggleView">View</button>
     </header>
-    <div id="editor">
+    <div id="wrapper">
+      <div id="editor">
 	<textarea cols="30" id="md" name="md" rows="10">
 Заголовок первого уровня
 ========================
@@ -52,10 +51,12 @@ if (isset($_POST['md']) and !empty($_POST['md'])) {
 
 ?>
 ```
-</textarea>
-	<button onclick="parse();">Parse</button>
+	</textarea>
+	<button id="parse">Parse</button>
+      </div>
+      <div id="output">Нажмите <strong>Parse</strong></div>
     </div>
-    <div id="output"></div>
+    <script type="text/javascript" src="index.js"></script>
   </body>
 </html>
 
