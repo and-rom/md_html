@@ -104,16 +104,16 @@
 		var data = eval("(" + xmlhttp.responseText + ")");
 
 		data.forEach(function(entry) {
+		    var li = document.createElement("li");
 		    if (entry != "no files") {
-			var li = document.createElement("li");
-			li.addEventListener( "click", function(){
+			li.addEventListener( "click", function() {
 			    window.location.hash = entry.split(".")[0];
 			    var xmlhttp,
 			    data = new FormData();
-
+			    
 			    if (window.XMLHttpRequest) { xmlhttp=new XMLHttpRequest();}
 			    else { xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); }
-
+			    
 			    data.append('open', entry );
 			    xmlhttp.open("POST","processor.php",true);
 			    xmlhttp.send(data);
@@ -121,12 +121,12 @@
 			    xmlhttp.onreadystatechange=function() {
 				mdtext.value = xmlhttp.responseText;
 			    }
-
-
+			    
+			    
 			} );
-			li.innerHTML = entry;
-			ul.appendChild(li);
 		    }
+		    li.innerHTML = entry;
+		    ul.appendChild(li);
 		});
 	    }
 	}
