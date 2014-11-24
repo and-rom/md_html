@@ -1,32 +1,6 @@
-function parse() {
-    var xmlhttp;
-
-    if (window.XMLHttpRequest) {
-	xmlhttp=new XMLHttpRequest();
-    }
-    else {
-	xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-
-    var md = document.getElementById("md").value;
-
-    var data = new FormData();
-    data.append('md', md);
-    xmlhttp.open("POST","processor.php",true);
-    xmlhttp.send(data);
-
-    xmlhttp.onreadystatechange=function() {
-	if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-	    document.getElementById("output").innerHTML = xmlhttp.responseText;
-	}
-    }
-}
-
 (function( window ){
     
     'use strict';
-    
-    var offset = "10em";
     
     var body = document.body,
     wrapper = document.getElementById("wrapper"),
@@ -47,22 +21,28 @@ function parse() {
     mask.id = "mask";
 
     var menu;
+    
+    var parse_flag = false;
 
     function menuToggler () {
 	if (typeof menu !== 'undefined'){
 	    if (!menu){
 		/* show */
-		console.log("show");
-		wrapper.style.left=offset;
+		// console.log("show");
+		wrapper.style.left="10em";
 		nav.style.left="0";
-		document.body.appendChild(mask);
+
+		body.appendChild(mask);
 		menu = true;
 	    } else {
 		/* hide */
-		console.log("hide");
+		// console.log("hide");
 		wrapper.style.left="0";
-		nav.style.left="-"+offset;
-		document.body.removeChild(mask);
+		nav.style.left="-15em";
+		while (mask.hasChildNodes()) {
+		    mask.removeChild(mask.lastChild);
+		}
+		body.removeChild(mask);
 		menu = false
 	    }
 	}
@@ -80,7 +60,10 @@ function parse() {
 	    menu = (menu ? menu : true )
 	    menuToggler();
 	} else {
-	    document.body.removeChild(mask);
+	    while (mask.hasChildNodes()) {
+		mask.removeChild(mask.lastChild);
+	    }
+	    body.removeChild(mask);
 	}
     } );
 
@@ -94,26 +77,205 @@ function parse() {
 	    output.style.display = "block"
 	}
     } );
+    /* open md file */
     open.addEventListener( "click", function(){
 	menuToggler();
-	output.innerHTML = "open";
+	while (mask.hasChildNodes()) {
+	    mask.removeChild(mask.lastChild);
+	}
+ 	body.appendChild(mask);
+
+	var dialog = document.createElement("div");
+	dialog.id = "dialog";
+	var ul = document.createElement("ul");
+	
+	var xmlhttp,
+	data = new FormData();
+	
+	if (window.XMLHttpRequest) { xmlhttp=new XMLHttpRequest();}
+	else { xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); }
+	
+	data.append('dir', "md");
+	xmlhttp.open("POST","processor.php",true);
+	xmlhttp.send(data);
+	
+	xmlhttp.onreadystatechange=function() {
+	    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+		var data = eval("(" + xmlhttp.responseText + ")");
+
+		data.forEach(function(entry) {
+		    if (entry != "no files") {
+			var li = document.createElement("li");
+			li.addEventListener( "click", function(){
+			    window.location.hash = entry.split(".")[0];
+			    var xmlhttp,
+			    data = new FormData();
+
+			    if (window.XMLHttpRequest) { xmlhttp=new XMLHttpRequest();}
+			    else { xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); }
+
+			    data.append('open', entry );
+			    xmlhttp.open("POST","processor.php",true);
+			    xmlhttp.send(data);
+			    
+			    xmlhttp.onreadystatechange=function() {
+				mdtext.value = xmlhttp.responseText;
+			    }
+
+
+			} );
+			li.innerHTML = entry;
+			ul.appendChild(li);
+		    }
+		});
+	    }
+	}
+	dialog.appendChild(ul);
+	mask.appendChild(dialog);
     } );
+    /* save md file */
     save.addEventListener( "click", function(){
 	menuToggler();
-	output.innerHTML = "save";
+	if (window.location.hash == "") {
+	    while (mask.hasChildNodes()) {
+		mask.removeChild(mask.lastChild);
+	    }
+ 	    body.appendChild(mask);
+	    var dialog = document.createElement("div");
+	    dialog.id = "dialog";
+	    dialog.innerHTML = "Type filename wthout extension: "
+	    var input = document.createElement("input");
+	    input.setAttribute('type',"text");
+	    input.setAttribute('id',"filename");
+	    var button =  document.createElement("button");
+	    button.innerHTML = "Save";
+
+	    button.addEventListener( "click", function(){
+		if (input.value != "") {
+		    window.location.hash = input.value;
+		    while (mask.hasChildNodes()) {
+			mask.removeChild(mask.lastChild);
+		    }
+		    body.removeChild(mask);
+		    finaly_save();
+		}
+
+	    } );
+
+	    dialog.appendChild(input);
+	    dialog.appendChild(button);
+	    
+	    dialog.addEventListener( "click", function(event){
+		event.preventDefault();
+		event.stopPropagation();
+	    } );
+	    
+	    mask.appendChild(dialog);
+
+	} else {finaly_save();}
 
     } );
+
+    function finaly_save () {
+	var xmlhttp,
+	md = mdtext.value,
+	data = new FormData()
+	;
+	
+	if (window.XMLHttpRequest) { xmlhttp=new XMLHttpRequest();}
+	else { xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); }
+	
+	data.append('save',  window.location.hash.replace("#","")+".md");
+	data.append('mdtext', md);
+	xmlhttp.open("POST","processor.php",true);
+	xmlhttp.send(data);
+	
+	xmlhttp.onreadystatechange=function() {
+	    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+		var dialog = document.createElement("div");
+		dialog.id = "dialog";
+		dialog.innerHTML = xmlhttp.responseText;
+		body.appendChild(mask);
+		mask.appendChild(dialog);
+		setTimeout(function() {
+		    while (mask.hasChildNodes()) {
+			mask.removeChild(mask.lastChild);
+		    }
+		    body.removeChild(mask);
+		}, 1000);
+	    }
+	}
+    }
+    /* save html file */
     publish.addEventListener( "click", function(){
 	menuToggler();
-	output.innerHTML = "publish";
+	while (mask.hasChildNodes()) {
+	    mask.removeChild(mask.lastChild);
+	}
+	
+	if (parse_flag) {
+	    var xmlhttp,
+	    md = mdtext.value,
+	    data = new FormData()
+	    ;
+	    
+	    if (window.XMLHttpRequest) { xmlhttp=new XMLHttpRequest();}
+	    else { xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); }
+	
+	    data.append('publish',  window.location.hash.replace("#","")+".html");
+	    data.append('html', output.innerHTML);
+	    xmlhttp.open("POST","processor.php",true);
+	    xmlhttp.send(data);
+	    
+	    xmlhttp.onreadystatechange=function() {
+		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+		    var dialog = document.createElement("div");
+		    dialog.id = "dialog";
+		    dialog.innerHTML = xmlhttp.responseText;
+		    body.appendChild(mask);
+		    mask.appendChild(dialog);
+		    setTimeout(function() {
+		        while (mask.hasChildNodes()) {
+		    	mask.removeChild(mask.lastChild);
+		        }
+		        body.removeChild(mask);
+		    }, 1000);
+		}
+	    }
+	    
+	}/*if*/
+	
     } );
+    /* show help */
     help.addEventListener( "click", function(){
 	menuToggler();
-	document.body.appendChild(mask);
-	output.innerHTML = "help";
-    } );
+	while (mask.hasChildNodes()) {
+	    mask.removeChild(mask.lastChild);
+	}
+	body.appendChild(mask);
 
+	var dialog = document.createElement("div");
+	dialog.id = "dialog";
+
+	var xmlhttp;
+	
+	if (window.XMLHttpRequest) { xmlhttp=new XMLHttpRequest();}
+	else { xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); }
+	
+	xmlhttp.open("GET","cs.html",true);
+	xmlhttp.send();
+	
+	xmlhttp.onreadystatechange=function() {
+	    if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+		dialog.innerHTML = xmlhttp.responseText;
+	    }
+	}
+
+	mask.appendChild(dialog);
+    } );
+    /* parse md frm textarea */
     parse.addEventListener( "click", function(){
+	parse_flag = true;
 	var xmlhttp,
 	md = mdtext.value,
 	data = new FormData()
@@ -132,4 +294,5 @@ function parse() {
 	    }
 	}
     } );
+
 })( window );

@@ -10,14 +10,15 @@ html,body {
 body {
     overflow-x: hidden;
     height:100%;
+    background: #aaa;
 }
 /* Common styles */
 pre {
-    overflow-x: scroll;
+    overflow-x: auto;
     width: 100%;
     display: block;
 }
-#nav, #wrapper, #mask, #editor, #output {
+#nav, #nav *, #wrapper, #mask, #editor, #output {
     /*SMOOTH MOTION*/    
     -webkit-transition: all 0.3s;
     -moz-transition: all 0.3s;
@@ -25,11 +26,15 @@ pre {
     -o-transition: all 0.3s;
     transition: all 0.3s;
 }
+ul {
+    list-style-type: none;
+}
 /* Header */
 header {
     background: #aaa;
     width: 100%;
     height: 2em;
+    z-index: 50;
 }
 header button {
     height: 2em;
@@ -41,6 +46,7 @@ header button {
 }
 #nav {
     display: inline-block;
+    background: #aaa;
 }
 #nav li {
     display: inline-block;
@@ -55,6 +61,7 @@ header button {
 }
 /* Body */
 #wrapper {
+    background: #aaa;
     position: relative;
     z-index: 10;
     top: 0;
@@ -67,14 +74,40 @@ header button {
     left: 0;
     z-index: 15;
     width: 100%;
-    height: 100%;
+    height: calc(100% - 2em);
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(180, 180, 180, 0.8);
+    padding: 2.5em 3em;
+    box-sizing: border-box;
+    text-align: center;
+}
+#dialog {
+    max-height: 100%;
+    max-width: 100%;
+    border: 1px #000 solid;
+    background: #fff;
+    overflow: auto;
+    box-sizing: border-box;
+    padding: 0.2em 1.5em;
+    display: inline-block;
+    text-align: left;
+    -webkit-box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.8);
+    -moz-box-shadow:    2px 2px 6px 0px rgba(0, 0, 0, 0.8);
+    box-shadow:         2px 2px 6px 0px rgba(0, 0, 0, 0.8);
+}
 
+#dialog ul li {
+    padding: 0.2em 1em;
+    margin-bottom: .5em;
+    border: 1px dotted #808080;
+    cursor: pointer;
+}
+#dialog ul li:hover {
+    background: rgba(0, 100, 255, 0.3);
 }
 /* First Column */
 #editor{
-    background: #ccc;
+    background: #aaa;
     height: 100%;
     width: 50%;
     float: left;
@@ -94,8 +127,8 @@ textarea{
 }
 /* Second Column */
 #output {
-    display: block;
     background: #eee;
+    display: block;
     height: 100%;
     width: 50%;
     float: left;
@@ -107,17 +140,28 @@ textarea{
 @media screen and (max-width: 500px) {
     #toggleMenu,#toggleView {
 	display: block;
+	height: 100%;
     }
     #nav {
 	position: fixed;
 	z-index: 20;
-	background-color: #67b5d1;
+	background: #aaa;
 	overflow: hidden;
 	height: 100%;
 	top: 2em;
-	left: -10em;
+	left: -15em;
 	width: 10em;
-	display:block;
+	display: block;
+	-webkit-box-shadow: 2px 2px 6px 0px rgba(0, 0, 0, 0.8);
+	-moz-box-shadow:    2px 2px 6px 0px rgba(0, 0, 0, 0.8);
+	box-shadow:         2px 2px 6px 0px rgba(0, 0, 0, 0.8);
+    }
+    #nav li {
+    	width: 100%;
+    }
+    #nav li button {
+    	width: 100%;
+	height: 3em;
     }
     #editor {
 	width: 100%;
