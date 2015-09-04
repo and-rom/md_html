@@ -149,7 +149,7 @@ textarea{
     padding: initial;
 }
 /* Media */
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 550px) {
     #toggleMenu,#toggleView {
 	display: block;
 	height: 100%;
