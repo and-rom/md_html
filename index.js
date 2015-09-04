@@ -5,6 +5,7 @@
     var body = document.body,
     wrapper = document.getElementById("wrapper"),
     toggleMenu = document.getElementById("toggleMenu"),
+    create = document.getElementById("new"),
     open = document.getElementById("open"),
     save = document.getElementById("save"),
     publish = document.getElementById("publish"),
@@ -76,6 +77,12 @@
 	    editor.style.display = "none"
 	    output.style.display = "block"
 	}
+    } );
+    /* new md file */
+    create.addEventListener( "click", function(){
+	menuToggler();
+	if (window.location.hash != "") window.location.hash = "";
+        mdtext.value = "";
     } );
     /* open md file */
     open.addEventListener( "click", function(){
