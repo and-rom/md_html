@@ -38,16 +38,16 @@ elseif (isset($_POST['open']) and !empty($_POST['open'])) {
 elseif (isset($_POST['save']) and !empty($_POST['save']) and isset($_POST['mdtext']) and !empty($_POST['mdtext'])) {
   $file = MDDIR.$_POST['save'];
   file_put_contents ($file,$_POST['mdtext']);
-  echo "Saved.";
+  echo "Сохранено.";
 }
 elseif (isset($_POST['publish']) and !empty($_POST['publish']) and isset($_POST['html']) and !empty($_POST['html'])) {
   $file = HTMLDIR.$_POST['publish'];
   file_put_contents ($file,$_POST['html']);
-  echo "Published.";
+  echo "Опубликовано.";
 }
 else {
   /* error */
-  echo "ERR\n";
+  echo "Ошибка\n";
   var_dump($_POST);
 }
 

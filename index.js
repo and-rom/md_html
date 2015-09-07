@@ -150,12 +150,12 @@
  	    body.appendChild(mask);
 	    var dialog = document.createElement("div");
 	    dialog.id = "dialog";
-	    dialog.innerHTML = "Type filename wthout extension: "
+	    dialog.innerHTML = "Введите имя файла без расширения: "
 	    var input = document.createElement("input");
 	    input.setAttribute('type',"text");
 	    input.setAttribute('id',"filename");
 	    var button =  document.createElement("button");
-	    button.innerHTML = "Save";
+	    button.innerHTML = "Сохранить";
 
 	    button.addEventListener( "click", function(){
 		if (input.value != "") {
