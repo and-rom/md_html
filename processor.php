@@ -40,9 +40,11 @@ elseif (isset($_POST['save']) and !empty($_POST['save']) and isset($_POST['mdtex
   file_put_contents ($file,$_POST['mdtext']);
   echo "Сохранено.";
 }
-elseif (isset($_POST['publish']) and !empty($_POST['publish']) and isset($_POST['html']) and !empty($_POST['html'])) {
+elseif (isset($_POST['publish']) and !empty($_POST['publish']) and isset($_POST['mdtext']) and !empty($_POST['mdtext'])) {
+  $Instance = new ParsedownExtra();
+  $contents = $Instance->text($_POST['mdtext']);
   $file = HTMLDIR.$_POST['publish'];
-  file_put_contents ($file,$_POST['html']);
+  file_put_contents ($file,$contents);
   echo "Опубликовано.";
 }
 else {

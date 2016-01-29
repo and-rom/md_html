@@ -230,7 +230,7 @@
 	    else { xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); }
 	
 	    data.append('publish',  window.location.hash.replace("#","")+".html");
-	    data.append('html', output.innerHTML);
+	    data.append('mdtext', md);
 	    xmlhttp.open("POST","processor.php",true);
 	    xmlhttp.send(data);
 	    
