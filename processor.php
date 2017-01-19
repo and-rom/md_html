@@ -3,7 +3,7 @@ error_reporting(0);
 
 require_once 'Michelf/MarkdownExtra.inc.php';
 
-if (file_exists($_SERVER['DOCUMENT_ROOT'] . "./config.php")) include($_SERVER['DOCUMENT_ROOT'] . "/config.php");
+if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/config.php")) include($_SERVER['DOCUMENT_ROOT'] . "/config.php");
 
 if (!defined("MDDIR")) define ("MDDIR", "./md/");
 if (!defined("HTMLDIR")) define ("HTMLDIR", "./html/");
