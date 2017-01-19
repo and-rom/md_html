@@ -285,8 +285,7 @@
 	parse_flag = true;
 	var xmlhttp,
 	md = mdtext.value,
-	data = new FormData()
-	;
+	data = new FormData();
 	
 	if (window.XMLHttpRequest) { xmlhttp=new XMLHttpRequest();}
 	else { xmlhttp=new ActiveXObject("Microsoft.XMLHTTP"); }
