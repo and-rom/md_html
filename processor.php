@@ -1,7 +1,8 @@
 <?php
 error_reporting(0);
 
-require_once 'Michelf/MarkdownExtra.inc.php';
+include("parsedown/Parsedown.php");
+include("parsedown/ParsedownExtra.php");
 
 if (file_exists($_SERVER['DOCUMENT_ROOT'] . "/config.php")) include($_SERVER['DOCUMENT_ROOT'] . "/config.php");
 
@@ -69,16 +70,13 @@ function _save($filename,$md) {
 }
 
 function _publish($filename,$md) {
-  //$Instance = new ParsedownExtra();
-  //$contents = $Instance->text($_POST['mdtext']);
-  //$file = HTMLDIR.$_POST['publish'];
-  //file_put_contents ($file,$contents);
   global $obj;
 
   if (!empty($md)) {
     if (!empty($filename)) {
       $file = HTMLDIR.$filename;
-      $html = \Michelf\MarkdownExtra::defaultTransform($md);
+      $Instance = new ParsedownExtra();
+      $html = $Instance->text($md);
       if (file_put_contents ($file,$html)) {
         $obj->status = "ok";
       } else {
@@ -100,7 +98,8 @@ function _parse($md) {
 
   if (!empty ($md)) {
     $obj->status = "ok";
-    $obj->result = \Michelf\MarkdownExtra::defaultTransform($md);
+    $Instance = new ParsedownExtra();
+    $obj->result = $Instance->text($md);
   } else {
     $obj->status = "error";
     $obj->error_msg = "Empty md.";
